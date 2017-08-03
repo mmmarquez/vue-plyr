@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-		<!-- <div class="video-play-container" style="max-width: 640px; max-height: 338px;">
-    	<div class="js--player" data-type="vimeo" data-video-id="225408543"></div>
-		</div> -->
+
+    <div class="">
+      <span v-if="!masterLoad">Loading....</span>
+      <span v-else>Done</span>
+    </div>
 
     <div class="">
       <ul>
@@ -12,17 +14,13 @@
       </ul>
     </div>
 
-
-    <input type="text" name="" value="" v-model="id">
-    <button type="button" name="button" @click="setView">FILTER</button>
-
-    <div class="">
+    <div class="" v-if="masterLoad">
       <ul>
         <li v-for="parent in menuNav">
-          {{parent.id}}
+          <button type="button" name="button" @click="setView(parent.id)">{{parent.id}}</button>
           <ul v-if="parent.child">
             <li v-for="child in parent.child">
-              {{child.id}}
+              <button type="button" name="button" @click="setView(child.id)">{{child.id}}</button>
             </li>
           </ul>
         </li>
@@ -36,8 +34,7 @@ export default {
   name: 'app',
   data() {
     return {
-      id: 10,
-      works: []
+      data: ''
     };
   },
   computed: {
@@ -51,8 +48,8 @@ export default {
       return this.$store.state.viewState;
     },
     filterWorks() {
-      return this.$store.state.workData.filter(item => {
-        return item.mediums.includes(this.$store.state.viewState);
+      return this.workData.filter(item => {
+        return item.mediums.includes(this.viewState);
       });
     },
     masterLoad() {
@@ -66,8 +63,8 @@ export default {
     }
   },
   methods: {
-    setView() {
-      this.$store.commit('SET_VIEW', this.id);
+    setView(id) {
+      this.$store.commit('SET_VIEW', id);
     }
   },
   beforeCreate() {

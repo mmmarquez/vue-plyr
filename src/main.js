@@ -18,7 +18,7 @@ const store = new Vuex.Store({
     workData: [],
     workReady: false,
     navReady: false,
-    viewState: '',
+    viewState: 10,
     dropState: ''
   },
   actions: {
@@ -31,7 +31,7 @@ const store = new Vuex.Store({
     LOAD_WORKS({ commit }) {
       return new Promise((resolve, reject) => {
         Vue.axios
-          .get('/wp-json/wp/v2/works?per_page=100')
+          .get('http://juliapitch.com/wp-json/wp/v2/works?per_page=100')
           .then(response => {
             return response.data;
           })
@@ -47,7 +47,7 @@ const store = new Vuex.Store({
     LOAD_MENU({ commit }) {
       return new Promise((resolve, reject) => {
         Vue.axios
-          .get('/wp-json/wp/v2/mediums')
+          .get('http://juliapitch.com/wp-json/wp/v2/mediums')
           .then(response => {
             return response.data;
           })
@@ -66,7 +66,7 @@ const store = new Vuex.Store({
   },
   mutations: {
     SET_VIEW: (state, value) => {
-      state.viewState = value;
+      state.viewState = parseInt(value);
     },
     SET_DROP: (state, value) => {
       state.dropState = value;
